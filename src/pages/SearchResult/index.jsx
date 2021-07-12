@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 
 import getGifs from "../../services/getGifs"
 import ListOfGifs from "../../components/ListOfGifs"
+import Spinner from '../../components/Spinner/'
 
 
 export default function SearchResult({ params }) {
@@ -23,7 +24,7 @@ export default function SearchResult({ params }) {
         <>
             {
                 loading 
-                ? <h2>Cargando...</h2>
+                ? <Spinner />
                 : <ListOfGifs gifs={gifs}/>
             }
         </>
