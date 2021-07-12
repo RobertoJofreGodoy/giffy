@@ -1,3 +1,5 @@
+import './Gif.css'
+
 export default function Gif( { id, title, url }) {
   return (
     <a key={id} className="gif" href={`#${id}`}>
