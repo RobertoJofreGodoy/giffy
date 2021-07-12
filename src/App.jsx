@@ -1,9 +1,9 @@
 import "./App.css";
 import React from "react";
-import ListOfGifs from "./components/ListOfGifs/";
-
 import { Route, Link } from 'wouter'
+
 import Home from "./pages/Home/";
+import SearchResult from "./pages/SearchResult/";
 
 function App() {
 
@@ -20,7 +20,7 @@ function App() {
 
         <Route 
           path="/search/:keyword" 
-          component={ListOfGifs} 
+          component={SearchResult} 
         />
 
         <Route 
