@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { Link, useLocation } from "wouter";
+import { useGifs } from "../../hooks/useGifs"
+
+import ListOfGifs from "../../components/ListOfGifs";
 
 const POPULAR_GIFS = ["Matrix", "Witcher", "Star Wars", "House"];
 
 export default function Home() {
   const [keyword, setKeyword] = useState("")
-
   //custom-hook de wouter
   const [ path, pushLocation ] = useLocation()
+
+  //custom-hook nuestro
+  const { loading, gifs  }= useGifs()
 
   const handleSubmit = (evt) => {
     evt.preventDefault()
@@ -29,6 +34,9 @@ export default function Home() {
           onChange={handleChange}
         />
       </form>
+
+      <h3>La ultima busqueda</h3>
+      <ListOfGifs gifs={gifs}/>
 
       <h3>Los gifs más populares</h3>
       <ul>
