@@ -2,16 +2,20 @@ import { useState, useEffect, useContext } from 'react'
 import getGifs from '../services/getGifs';
 import { GifsContext } from '../context/GifsContext';
 
+const INITIAL_PAGE = 0
+
 export function useGifs ( { keyword } = { keyword: null }) {
 
     const [ loading, setLoading ] = useState(false)
+    const [ loadingNextPage, setLoadingNextPage ] = useState(false)
+    const [ page, setPage ] = useState(INITIAL_PAGE)
     const { gifs, setGifs } = useContext(GifsContext)
+
+    //se recupera ultima keyword del localstorage
+    const keywordToUse = keyword || localStorage.getItem('lastKeyword') || 'random'
     
     useEffect(() => {
         setLoading(true)
-
-        //se recupera ultima keyword del localstorage
-        const keywordToUse = keyword || localStorage.getItem('lastKeyword') || 'random'
 
         getGifs( { keyword: keywordToUse } )
             .then((gifs) => {
@@ -20,8 +24,23 @@ export function useGifs ( { keyword } = { keyword: null }) {
                 //se guarda la keyword
                 localStorage.setItem('lastKeyword', keyword)
             })
-      }, [ keyword, setGifs ]);
+      }, [ keyword, setGifs, keywordToUse ]);
+    
 
-      return { loading, gifs }
+    // EFECTO PARA PAGINACION
+    useEffect(() => {
+        if ( page === INITIAL_PAGE  ) return
+        
+        setLoadingNextPage(true)
+        getGifs({ keyword: keywordToUse, page })
+            .then( nextGifs => {
+                setGifs( prevGifs => prevGifs.concat(nextGifs))
+                setLoadingNextPage(false)
+
+            })
+    }, [page, keywordToUse, setGifs])
+    
+
+    return { loading, loadingNextPage, gifs, setPage,  }
 }
 
