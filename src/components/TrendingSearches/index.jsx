@@ -25,11 +25,11 @@ export default function LazyTrending () {
 
     useEffect( () => {
 
-        const onChange = ( entries ) => {
+        const onChange = ( entries, observer ) => {
             const el = entries[0]
-            
             if (el.isIntersecting) {
                 setShow(true)
+                observer.disconnect()
             }
         }
 
@@ -39,6 +39,8 @@ export default function LazyTrending () {
 
         //Le decimos al observer que este pendiente del elemento que tiene la referencia
         observer.observe(elementRef.current)
+
+        return () => observer.disconnect()
     }, [])
 
     return (
