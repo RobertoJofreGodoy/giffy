@@ -1,28 +1,39 @@
 import "./App.css";
 import React from "react";
-import ListOfGifs from "./components/ListOfGifs";
-
 import { Route, Link } from 'wouter'
+
+import Home from "./pages/Home/";
+import SearchResult from "./pages/SearchResult/";
+import Detail from "./pages/Detail";
+import GifsProvider from "./context/GifsContext";
 
 function App() {
 
   return (
-    <div className="App">
-      <section className="App-content">
+      <div className="App">
+        <section className="App-content">
 
-        <h1>Giffy</h1>
+          <Link to='/'><h1>Giffy</h1></Link>
 
-        <Link to="/gif/ciri">Gifs de Ciri</Link>
-        <Link to="/gif/geralt">Gifs de Geralt</Link>
-        <Link to="/gif/yennefer">Gifs de Yennefer</Link>
+          <GifsProvider >
+            <Route 
+              path="/"
+              component={Home}
+            />
 
-        <Route 
-          path="/gif/:keyword" 
-          component={ListOfGifs} 
-        />
-        
-      </section>
-    </div>
+            <Route 
+              path="/search/:keyword" 
+              component={SearchResult} 
+            />
+
+            <Route 
+              path="/gif/:id"
+              component={Detail}
+            />
+          </GifsProvider>
+          
+        </section>
+      </div>
   );
 }
 

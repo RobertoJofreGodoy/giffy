@@ -19,3 +19,7 @@ a {
   color: #09f;
   text-decoration: none;
 }
+
+li {
+  list-style: none;
+}
