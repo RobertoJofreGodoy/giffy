@@ -1,11 +1,9 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
-import { useGifs } from "../../hooks/useGifs"
+import { useLocation } from "wouter";
+import { useGifs } from "hooks/useGifs"
 
-import ListOfGifs from "../../components/ListOfGifs";
-import Category from '../../components/Category'
-
-const POPULAR_GIFS = ["Matrix", "Witcher", "Star Wars", "House"];
+import ListOfGifs from "components/ListOfGifs";
+import TrendingSearches from 'components/TrendingSearches'
 
 export default function Home() {
   const [keyword, setKeyword] = useState("")
@@ -41,14 +39,7 @@ export default function Home() {
           <ListOfGifs gifs={gifs} />
         </div>
         <div className="App-category">
-          <Category
-            name="Categorias populares"
-            options={POPULAR_GIFS}
-          />
-          <Category
-            name="Mascotas"
-            options={['Perros', 'Gatos', 'Hamster']}
-          />
+          <TrendingSearches />
         </div>
       </div>
     </>

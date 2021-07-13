@@ -1,6 +1,6 @@
-import ListOfGifs from "../../components/ListOfGifs"
-import Spinner from '../../components/Spinner/'
-import { useGifs } from "../../hooks/useGifs"
+import ListOfGifs from "components/ListOfGifs"
+import Spinner from 'components/Spinner/'
+import { useGifs } from "hooks/useGifs"
 
 export default function SearchResult({ params }) {
 
@@ -8,7 +8,6 @@ export default function SearchResult({ params }) {
     
     // custom hook para buscar los gifs
     const { loading, gifs } = useGifs({ keyword })
-    console.log('-')
 
     return (
         <>
@@ -17,7 +16,7 @@ export default function SearchResult({ params }) {
                 ? <Spinner />
                 : (
                     <>
-                        <h3 className="App-title">{keyword}</h3>
+                        <h3 className="App-title">{decodeURI(keyword)}</h3>
                         <ListOfGifs gifs={gifs}/>
                     </>
                     )
