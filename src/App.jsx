@@ -4,31 +4,36 @@ import { Route, Link } from 'wouter'
 
 import Home from "./pages/Home/";
 import SearchResult from "./pages/SearchResult/";
+import Detail from "./pages/Detail";
+import GifsProvider from "./context/GifsContext";
 
 function App() {
 
   return (
-    <div className="App">
-      <section className="App-content">
+      <div className="App">
+        <section className="App-content">
 
-        <Link to='/'><h1>Giffy</h1></Link>
+          <Link to='/'><h1>Giffy</h1></Link>
 
-        <Route 
-          path="/"
-          component={Home}
-        />
+          <GifsProvider >
+            <Route 
+              path="/"
+              component={Home}
+            />
 
-        <Route 
-          path="/search/:keyword" 
-          component={SearchResult} 
-        />
+            <Route 
+              path="/search/:keyword" 
+              component={SearchResult} 
+            />
 
-        <Route 
-          path="/gif/:id"
-        />
-        
-      </section>
-    </div>
+            <Route 
+              path="/gif/:id"
+              component={Detail}
+            />
+          </GifsProvider>
+          
+        </section>
+      </div>
   );
 }
 
