@@ -1,11 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import getTrendingTerms from "../../services/getTrendingTermsService";
 import Category from "../Category";
 
 function TrendingSearches() {
-  const [trends, setTrends] = React.useState([]);
+  const [trends, setTrends] = useState([]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     getTrendingTerms().then(setTrends);
   }, []);
 
@@ -18,7 +18,10 @@ function TrendingSearches() {
 
 export default function LazyTrending () {
 
-    const [ show, setShow] = React.useState(false)
+    const [ show, setShow] = useState(false)
+
+    // useRef() es un hook de React que nos permite guardar datos, la diferencia con useState() es que no se re-renderiza si el elemento cambia
+    const elementRef = useRef()
 
     useEffect( () => {
 
@@ -34,11 +37,13 @@ export default function LazyTrending () {
             rootMargin: '100px',
         })
 
-        observer.observe(document.getElementById('LaziTrending'))
+        //Le decimos al observer que este pendiente del elemento que tiene la referencia
+        observer.observe(elementRef.current)
     }, [])
 
     return (
-        <div id="LaziTrending">
+        // enlazamos el div con la const de useRef()
+        <div ref={elementRef}>
             { show ?  <TrendingSearches /> : null }
         </div>
     )
