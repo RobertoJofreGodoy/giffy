@@ -1,16 +1,14 @@
 import { useState } from "react";
-import { Link, useLocation } from "wouter";
-import { useGifs } from "../../hooks/useGifs"
+import { useLocation } from "wouter";
+import { useGifs } from "hooks/useGifs"
 
-import ListOfGifs from "../../components/ListOfGifs";
-
-const POPULAR_GIFS = ["Matrix", "Witcher", "Star Wars", "House"];
+import ListOfGifs from "components/ListOfGifs";
+import TrendingSearches from 'components/TrendingSearches'
 
 export default function Home() {
   const [keyword, setKeyword] = useState("")
   //custom-hook de wouter
   const [ path, pushLocation ] = useLocation()
-
   //custom-hook nuestro
   const { loading, gifs  }= useGifs()
 
@@ -28,6 +26,7 @@ export default function Home() {
   return (
     <>
       <form onSubmit={handleSubmit}>
+      <button>Buscar</button>
         <input
           type="text"
           value={keyword}
@@ -35,17 +34,15 @@ export default function Home() {
         />
       </form>
 
-      <h3>La ultima busqueda</h3>
-      <ListOfGifs gifs={gifs}/>
-
-      <h3>Los gifs más populares</h3>
-      <ul>
-        {POPULAR_GIFS.map((popularGif) => (
-          <li key={popularGif}>
-            <Link to={`/search/${popularGif}`}>Gifs de {popularGif}</Link>
-          </li>
-        ))}
-      </ul>
+      <div className="App-main">
+        <div className="App-results">
+          <h3 className="App-title">Última búsqueda</h3>
+          <ListOfGifs gifs={gifs} />
+        </div>
+        <div className="App-category">
+          <TrendingSearches />
+        </div>
+      </div>
     </>
   );
 }

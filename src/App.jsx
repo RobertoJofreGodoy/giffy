@@ -1,7 +1,6 @@
 import "./App.css";
 import React from "react";
 import { Route, Link } from 'wouter'
-
 import Home from "./pages/Home/";
 import SearchResult from "./pages/SearchResult/";
 import Detail from "./pages/Detail";
@@ -13,7 +12,11 @@ function App() {
       <div className="App">
         <section className="App-content">
 
-          <Link to='/'><h1>Giffy</h1></Link>
+          <Link to='/'>
+            <figure className="App-logo">
+              <img alt='Giffy logo' src='/logo_giffy.png' />
+            </figure>
+          </Link>
 
           <GifsProvider >
             <Route 
