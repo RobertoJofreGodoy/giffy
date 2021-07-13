@@ -1,52 +1,23 @@
-import React, { useEffect, useState, useRef } from "react";
-import getTrendingTerms from "../../services/getTrendingTermsService";
-import Category from "../Category";
+import React, { Suspense } from "react";
+import useNearScreen from "hooks/useNearScreen";
+import Spinner from "components/Spinner";
 
-function TrendingSearches() {
-  const [trends, setTrends] = useState([]);
-
-  useEffect(() => {
-    getTrendingTerms().then(setTrends);
-  }, []);
-
-  return (
-    <div>
-      <Category name="tendencias" options={trends} />
-    </div>
-  );
-}
+// Import dinamico
+const TrendingSearches = React.lazy( () =>  import('./TrendingSearches'))
 
 export default function LazyTrending () {
 
-    const [ show, setShow] = useState(false)
-
-    // useRef() es un hook de React que nos permite guardar datos, la diferencia con useState() es que no se re-renderiza si el elemento cambia
-    const elementRef = useRef()
-
-    useEffect( () => {
-
-        const onChange = ( entries, observer ) => {
-            const el = entries[0]
-            if (el.isIntersecting) {
-                setShow(true)
-                observer.disconnect()
-            }
-        }
-
-        const observer = new IntersectionObserver(onChange, {
-            rootMargin: '100px',
-        })
-
-        //Le decimos al observer que este pendiente del elemento que tiene la referencia
-        observer.observe(elementRef.current)
-
-        return () => observer.disconnect()
-    }, [])
+    const { isNearScreen, fromRef } = useNearScreen({ distance: '10px'})
 
     return (
         // enlazamos el div con la const de useRef()
-        <div ref={elementRef}>
-            { show ?  <TrendingSearches /> : null }
+        <div ref={fromRef}>
+            {/* Suspense es un hook de React que nos permite esperar la promesa del componente con import dinamico 
+            Ademas en el fallback podemos indicar que mostrar mientras no se ha cargado el componente, en este caso mostraremos el spinner que ya tenemos
+            */}
+            <Suspense fallback={<Spinner />}>
+                { isNearScreen ?  <TrendingSearches /> : null }
+            </Suspense>
         </div>
     )
 
