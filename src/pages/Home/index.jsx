@@ -26,6 +26,7 @@ export default function Home() {
   return (
     <>
       <form onSubmit={handleSubmit}>
+      <button>Buscar</button>
         <input
           type="text"
           value={keyword}
